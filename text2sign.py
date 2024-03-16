@@ -12,7 +12,7 @@ SPM_PATH = MODEL_FOLDER + "/spm.model"
 
 
 MODELS, SRC_VOCABS, TARG_VOCABS = model.load_models(
-    context=DEVICE, dtype=None, MODEL_FOLDERs=[MODEL_FOLDER], inference_only=True)
+    context=DEVICE, dtype=None, model_folders=[MODEL_FOLDER], inference_only=True)
 SPM_MODEL = spm.SentencePieceProcessor(model_file=SPM_PATH)
 
 

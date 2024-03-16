@@ -17,4 +17,4 @@ RUN apt install -y sentencepiece
 
 
 # Start
-CMD ["flask", "run"]
+CMD ["python3", "app.py"]

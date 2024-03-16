@@ -12,7 +12,7 @@ TOTAL_RAM = get_total_ram()
 MIN_RAM = 800  # for text2sign
 SPOKEN_SIGN = False
 
-if MIN_RAM < TOTAL_RAM:
+if TOTAL_RAM > MIN_RAM:
     SPOKEN_SIGN = True
     import text2sign
 
@@ -33,14 +33,14 @@ def translate_text():
     return jsonify({"translation": symbol})
 
 
-@app.route("sign2img")
+@app.route("/sign2img")
 def covert_text():
     sign = request.args.get("sign", None)
     if not sign:
         return jsonify({"error": "No sign provided"}), 400
 
     img = sign2img.convert(sign)
-    return send_file(img, mimetype='image/png')
+    return send_file(img, mimetype='image/png', download_name="sign.png", as_attachment=True)
 
 
 if __name__ == "__main__":
