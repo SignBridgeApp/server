@@ -10,19 +10,18 @@ def get_total_ram():
 
 TOTAL_RAM = get_total_ram()
 MIN_RAM = 800  # for text2sign
-SPOKEN_SIGN = False
+TEXT_SIGN = TOTAL_RAM > MIN_RAM
+TEXT_SIGN = False  # temp
 
-if TOTAL_RAM > MIN_RAM:
-    SPOKEN_SIGN = True
+if TEXT_SIGN:
     import text2sign
-
-
+    
 app = Flask(__name__)
 
 
 @app.route("/text2sign")
 def translate_text():
-    if not SPOKEN_SIGN:
+    if not TEXT_SIGN:
         return jsonify({"error": f"No enough RAM, {MIN_RAM}/{TOTAL_RAM}"}), 400
 
     text = request.args.get("text", None)
