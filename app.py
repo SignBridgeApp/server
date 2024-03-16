@@ -47,9 +47,9 @@ def index():
     return jsonify({"Server": "OK"})
 
 
-@app.route()
-def notfound():
-    return jsonify({"error": "Not a path"}), 400
+@app.errorhandler(404)
+def notfound(e):
+    return jsonify({"error": "Not a path"}), 404
 
 
 if __name__ == "__main__":
