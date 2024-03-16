@@ -12,7 +12,7 @@ TOTAL_RAM = get_total_ram()
 MIN_RAM = 800  # for text2sign
 SPOKEN_SIGN = False
 
-if TOTAL_RAM < MIN_RAM:
+if MIN_RAM < TOTAL_RAM:
     SPOKEN_SIGN = True
     import text2sign
 
