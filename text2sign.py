@@ -1,44 +1,45 @@
 import mxnet as mx
 from sockeye import inference, model
 import sentencepiece as spm
+
 import warnings
 warnings.filterwarnings("ignore")
 
 
-device = mx.cpu()
-model_folder = "spoken2symbol"
-spm_path = model_folder + "/spm.model"
+DEVICE = mx.cpu()
+MODEL_FOLDER = "spoken2symbol"
+SPM_PATH = MODEL_FOLDER + "/spm.model"
 
 
-sockeye_models, sockeye_source_vocabs, sockeye_target_vocabs = model.load_models(
-    context=device, dtype=None, model_folders=[model_folder], inference_only=True)
-sp = spm.SentencePieceProcessor(model_file=spm_path)
+MODELS, SRC_VOCABS, TARG_VOCABS = model.load_models(
+    context=DEVICE, dtype=None, MODEL_FOLDERs=[MODEL_FOLDER], inference_only=True)
+SPM_MODEL = spm.SentencePieceProcessor(model_file=SPM_PATH)
 
 
-language_code = "en"
-country_code = "ase" # "us"
-translation_type = "sent"
-n_best = 3
-beam_size = n_best
+LANG_CODE = "en"
+CONT_CODE = "ase"  # "us"
+TRANS_TYPE = "sent"
+N_BEST = 3
+BEAM_SIZE = N_BEST
 
 
 def translate(text):
-    tag_str = f"<2{language_code}> <4{country_code}> <{translation_type}>"
+    tag_str = f"<2{LANG_CODE}> <4{CONT_CODE}> <{TRANS_TYPE}>"
     formatted = f"{tag_str} {text}"
-    encoded = " ".join(sp.encode(formatted, out_type=str))
+    encoded = " ".join(SPM_MODEL.encode(formatted, out_type=str))
 
     translator = inference.Translator(
-        context=device,
+        context=DEVICE,
         ensemble_mode="linear",
         scorer=inference.CandidateScorer(),
         output_scores=True,
         batch_size=1,
-        beam_size=beam_size,
+        BEAM_SIZE=BEAM_SIZE,
         beam_search_stop="all",
-        nbest_size=n_best,
-        models=sockeye_models,
-        source_vocabs=sockeye_source_vocabs,
-        target_vocabs=sockeye_target_vocabs,
+        nbest_size=N_BEST,
+        models=MODELS,
+        source_vocabs=SRC_VOCABS,
+        target_vocabs=TARG_VOCABS,
     )
 
     encoded = inference.make_input_from_plain_string(0, encoded)
