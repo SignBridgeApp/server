@@ -1,0 +1,9 @@
+Flask
+
+# Spoken 2 Sign
+torch==1.10.0 -f https://download.pytorch.org/whl/cpu/
+sockeye==3.0.13
+numpy==1.23
+git+https://github.com/sign-language-processing/signwriting.git
+sentencepiece
+# --pre -f https://dist.mxnet.io/python 'mxnet==2.0.0b20220206'
