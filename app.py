@@ -15,7 +15,7 @@ TEXT_SIGN = False  # temp
 
 if TEXT_SIGN:
     import text2sign
-    
+
 app = Flask(__name__)
 
 
@@ -42,5 +42,15 @@ def covert_text():
     return send_file(img, mimetype='image/png', download_name="sign.png", as_attachment=True)
 
 
+@app.route("/")
+def index():
+    return jsonify({"Server": "OK"})
+
+
+@app.route()
+def notfound():
+    return jsonify({"error": "Not a path"}), 400
+
+
 if __name__ == "__main__":
-    app.run()
+    app.run(host="0.0.0.0", port=10000)

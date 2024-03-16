@@ -17,4 +17,5 @@ RUN apt install -y sentencepiece
 
 
 # Start
+EXPOSE 10000
 CMD ["python3", "app.py"]
