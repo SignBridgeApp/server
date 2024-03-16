@@ -39,7 +39,7 @@ def covert_text():
         return jsonify({"error": "No sign provided"}), 400
 
     img = sign2img.convert(sign)
-    return send_file(img, mimetype='image/png', download_name="sign.png", as_attachment=True)
+    return send_file(img, mimetype='image/png', download_name="sign.png")
 
 
 @app.route("/")

@@ -1,15 +1,15 @@
-import io
+from io import BytesIO
 from signwriting.visualizer.visualize import signwriting_to_image
 from PIL import Image
 
 
-def to_byte_array(image: Image) -> bytes:
-    imgByteArr = io.BytesIO()
-    image.save(imgByteArr, "png")
-    imgByteArr = imgByteArr.getvalue()
-    return imgByteArr
+def to_bytes_io(image: Image) -> BytesIO:
+    imgByte = BytesIO()
+    image.save(imgByte, "png")
+    imgByte.seek(0)
+    return imgByte
 
 
 def convert(fsw):
     img: Image = signwriting_to_image(fsw)
-    return to_byte_array(img)
+    return to_bytes_io(img)
