@@ -1,18 +1,8 @@
 from flask import Flask, jsonify, request, send_file
-import psutil
 import sign2img
+import os
 
-
-def get_total_ram():
-    total_ram_bytes = psutil.virtual_memory().total
-    return total_ram_bytes / (1024 * 1024)
-
-
-TOTAL_RAM = get_total_ram()
-MIN_RAM = 800  # for text2sign
-TEXT_SIGN = TOTAL_RAM > MIN_RAM
-TEXT_SIGN = False  # temp
-
+TEXT_SIGN = True if os.environ.get("TEXT_SIGN", False) else False
 if TEXT_SIGN:
     import text2sign
 
@@ -22,7 +12,7 @@ app = Flask(__name__)
 @app.route("/text2sign")
 def translate_text():
     if not TEXT_SIGN:
-        return jsonify({"error": f"No enough RAM, {MIN_RAM}/{TOTAL_RAM}"}), 400
+        return jsonify({"error": f"TEXT_SIGN is not trie"}), 400
 
     text = request.args.get("text", None)
     if not text:
@@ -53,4 +43,4 @@ def notfound(e):
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=10000)
+    app.run(host="0.0.0.0", port=7860)

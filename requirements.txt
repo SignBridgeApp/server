@@ -1,5 +1,4 @@
 Flask
-psutil
 
 # Spoken 2 Sign
 torch==1.10.0 -f https://download.pytorch.org/whl/cpu/
