@@ -1,10 +1,9 @@
-from bottle import Bottle, request, response
+from bottle import route, run, request, response
 import sign2img
 import text2sign
 
-app = Bottle()
 
-@app.route("/text2sign")
+@route("/text2sign")
 def translate_text():
     text = request.query.get("text", None)
     if not text:
@@ -15,8 +14,8 @@ def translate_text():
     return {"sign": symbol}
 
 
-@app.route("/sign2img")
-def covert_text():
+@route("/sign2img")
+def convert_text():
     sign = request.query.get("sign", None)
     if not sign:
         response.status_code = 400
@@ -27,16 +26,10 @@ def covert_text():
     return img
 
 
-@app.route("/")
+@route("/")
 def index():
-    return {"Server": "OK"}
-
-
-@app.error(404)
-def notfound(e):
-    response.status_code = 404
-    return {"error": "Not a path"}
+    return {"signbridge-server": "OK"}
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=7860)
+    run(host="0.0.0.0", port=7860)

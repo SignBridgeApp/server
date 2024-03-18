@@ -7,7 +7,7 @@ warnings.filterwarnings("ignore")
 
 
 DEVICE = mx.cpu()
-MODEL_FOLDER = "spoken2symbol"
+MODEL_FOLDER = "text2sign"
 SPM_PATH = MODEL_FOLDER + "/spm.model"
 
 
