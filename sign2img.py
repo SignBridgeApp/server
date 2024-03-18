@@ -10,6 +10,7 @@ def to_bytes_io(image: Image) -> BytesIO:
     return imgByte
 
 
-def convert(fsw):
+def convert(fsw) -> BytesIO:
+    print(fsw)
     img: Image = signwriting_to_image(fsw)
     return to_bytes_io(img)

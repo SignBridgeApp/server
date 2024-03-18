@@ -22,28 +22,35 @@ TRANS_TYPE = "sent"
 N_BEST = 3
 BEAM_SIZE = N_BEST
 
+TRANSLATOR = inference.Translator(
+    context=DEVICE,
+    ensemble_mode="linear",
+    scorer=inference.CandidateScorer(),
+    output_scores=True,
+    batch_size=1,
+    beam_size=BEAM_SIZE,
+    beam_search_stop="all",
+    nbest_size=N_BEST,
+    models=MODELS,
+    source_vocabs=SRC_VOCABS,
+    target_vocabs=TARG_VOCABS,
+)
+
 
 def translate(text):
+    print(text)
+
     tag_str = f"<2{LANG_CODE}> <4{CONT_CODE}> <{TRANS_TYPE}>"
     formatted = f"{tag_str} {text}"
-    encoded = " ".join(SPM_MODEL.encode(formatted, out_type=str))
 
-    translator = inference.Translator(
-        context=DEVICE,
-        ensemble_mode="linear",
-        scorer=inference.CandidateScorer(),
-        output_scores=True,
-        batch_size=1,
-        BEAM_SIZE=BEAM_SIZE,
-        beam_search_stop="all",
-        nbest_size=N_BEST,
-        models=MODELS,
-        source_vocabs=SRC_VOCABS,
-        target_vocabs=TARG_VOCABS,
-    )
+    encoded = " ".join(SPM_MODEL.encode(formatted, out_type=str))
+    print(encoded)
 
     encoded = inference.make_input_from_plain_string(0, encoded)
-    output = translator.translate([encoded])[0]
+    print(encoded)
+
+    output = TRANSLATOR.translate([encoded])[0]
+    print(output)
 
     # translations = []
     symbols_candidates = output.nbest_translations
@@ -72,6 +79,7 @@ def translate(text):
                 fsw += y
 
         # translations.append(fsw)
+        print(fsw)
         return fsw
 
     # return translations
