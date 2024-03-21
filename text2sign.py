@@ -22,20 +22,6 @@ TRANS_TYPE = "sent"
 N_BEST = 3
 BEAM_SIZE = N_BEST
 
-TRANSLATOR = inference.Translator(
-    context=DEVICE,
-    ensemble_mode="linear",
-    scorer=inference.CandidateScorer(),
-    output_scores=True,
-    batch_size=1,
-    beam_size=BEAM_SIZE,
-    beam_search_stop="all",
-    nbest_size=N_BEST,
-    models=MODELS,
-    source_vocabs=SRC_VOCABS,
-    target_vocabs=TARG_VOCABS,
-)
-
 
 def translate(text):
     print(text)
@@ -48,6 +34,20 @@ def translate(text):
 
     encoded = inference.make_input_from_plain_string(0, encoded)
     print(encoded)
+    
+    TRANSLATOR = inference.Translator(
+		context=DEVICE,
+		ensemble_mode="linear",
+		scorer=inference.CandidateScorer(),
+		output_scores=True,
+		batch_size=1,
+		beam_size=BEAM_SIZE,
+		beam_search_stop="all",
+		nbest_size=N_BEST,
+		models=MODELS,
+		source_vocabs=SRC_VOCABS,
+		target_vocabs=TARG_VOCABS,
+	)
 
     output = TRANSLATOR.translate([encoded])[0]
     print(output)
