@@ -59,3 +59,29 @@ https://bipinkrish-signbridge.hf.space/sign2img?sign=M530x518S19a30500x482S19a38
 ```
 
 ![sign2img](https://github.com/SignBridgeApp/server/assets/87369440/c4cb6a05-fc47-4a6b-b324-91e0c2327451)
+
+### 3. Text to Gloss
+
+Takes a spoken english text as input and returns simplified gloss of it.
+
+* Link
+
+```
+<base_url>/text2gloss
+```
+
+* Params
+  
+```
+text
+```
+
+* Example
+
+```
+https://bipinkrish-signbridge.hf.space/text2gloss?text=membership%20of%20parliament%20see%20minutes
+```
+
+```
+{"gloss":"parliament see minute"}
+```
