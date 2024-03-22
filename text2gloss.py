@@ -1,4 +1,4 @@
-import dill as pickle
+import pickle
 import torch
 from transformers import *
 
@@ -69,4 +69,8 @@ def translate(text: str) -> str:
     pred_line = ' '.join(TRG.vocab.itos[idx] for idx in pred_seq)
     pred_line = pred_line.replace(
         Constants.BOS_WORD, '').replace(Constants.EOS_WORD, '')
-    return str(pred_line.strip())
+
+    final = str(pred_line.strip())
+    if final.endswith(" ."):
+        final = final[:-2]
+    return final

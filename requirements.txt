@@ -10,4 +10,4 @@ sentencepiece==0.2.0
 
 # Text 2 Gloss
 spacy==2.3.9
-dill==0.3.8
+torchtext==0.6.0

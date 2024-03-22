@@ -19,3 +19,4 @@ else
     echo "Directory $TARGET_DIR already exists. Skipping download and extraction."
 fi
 
+python3 -m spacy download en
