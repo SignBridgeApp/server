@@ -1,8 +1,17 @@
 from bottle import route, run, request, response
 from time import time
+import warnings
+warnings.filterwarnings("ignore")
+
 import sign2img
+
 try:
     import text2sign
+except Exception as e:
+    print(e)
+
+try:
+    import text2gloss
 except Exception as e:
     print(e)
 
@@ -34,6 +43,22 @@ def convert_text():
         img = sign2img.convert(sign)
         response.content_type = 'image/png'
         return img
+    except Exception as e:
+        response.status = 404
+        return {"error": str(e)}
+
+
+@route("/text2gloss")
+def translate_gloss():
+    text = request.query.get("text", None)
+    if not text:
+        response.status = 400
+        return {"error": "No text provided"}
+
+    try:
+        start = time()
+        gloss = text2gloss.translate(text)
+        return {"gloss": gloss, "time-taken": time() - start}
     except Exception as e:
         response.status = 404
         return {"error": str(e)}
