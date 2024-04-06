@@ -9,7 +9,7 @@ warnings.filterwarnings("ignore")
 try:
     import text2sign
 except Exception as e:
-    print(e)
+    print("text2sign", e)
 
 
 ############ for pickle ############
@@ -57,7 +57,7 @@ def filter_examples_with_length(x):
 try:
     import text2gloss
 except Exception as e:
-    print(e)
+    print("text2gloss", e)
 
 ####################
 
