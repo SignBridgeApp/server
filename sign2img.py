@@ -10,7 +10,9 @@ def to_bytes_io(image: Image) -> BytesIO:
     return imgByte
 
 
-def convert(fsw) -> BytesIO:
-    print(fsw)
-    img: Image = signwriting_to_image(fsw)
+def convert(fsw: str, line_color=None) -> BytesIO:
+    if not line_color or len(line_color) != 4:
+        line_color = (0, 0, 0, 255)
+
+    img: Image = signwriting_to_image(fsw, line_color=line_color, embedded_color=True)
     return to_bytes_io(img)

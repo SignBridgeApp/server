@@ -34,7 +34,8 @@ TRANSLATOR = inference.Translator(
 )
 
 
-def translate(text):
+def translate(text: str):
+    text = text.lower()
     print(text)
 
     tag_str = f"<2{LANG_CODE}> <4{CONT_CODE}> <{TRANS_TYPE}>"
