@@ -83,16 +83,16 @@ def translate_text():
 @route("/sign2img")
 def convert_text():
     sign = request.query.get("sign", None)
-    color = request.query.get("color", None).split(",")
-    if color:
-        color = tuple([int(x) for x in color])
+    line_color = request.query.get("line_color", None)
+    if line_color:
+        line_color = tuple([int(x) for x in line_color.split(",")])
 
     if not sign:
         response.status = 400
         return {"error": "No sign provided"}
 
     try:
-        img = sign2img.convert(sign, color)
+        img = sign2img.convert(sign, line_color)
         response.content_type = 'image/png'
         return img
     except Exception as e:
