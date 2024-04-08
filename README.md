@@ -59,7 +59,7 @@ color (Optional)
 https://bipinkrish-signbridge.hf.space/sign2img?sign=M530x518S19a30500x482S19a38465x481S22f04509x506S22f14467x504&color=10,23,122,255
 ```
 
-![sign2img](https://github.com/SignBridgeApp/server/assets/87369440/c4cb6a05-fc47-4a6b-b324-91e0c2327451)
+![sign2img](https://github.com/SignBridgeApp/server/assets/87369440/542e93ed-3138-47b2-a777-4aa0739b6cf7)
 
 ### 3. Text to Gloss
 
