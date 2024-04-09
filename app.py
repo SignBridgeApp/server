@@ -2,6 +2,7 @@ import sign2img
 from bottle import route, run, request, response
 from time import time
 import spacy
+import socket
 
 import warnings
 warnings.filterwarnings("ignore")
@@ -122,4 +123,11 @@ def index():
 
 
 if __name__ == "__main__":
+    def print_local_ip():
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.connect(('8.8.8.8', 80))
+        print(f"http://{s.getsockname()[0]}:7860/")
+        s.close()
+    
+    print_local_ip()
     run(host="0.0.0.0", port=7860)
