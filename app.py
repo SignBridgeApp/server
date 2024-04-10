@@ -1,10 +1,15 @@
-import sign2img
+import warnings
 from bottle import route, run, request, response
 from time import time
+import uuid
+import os
 import spacy
 import socket
+import sign2img
+from pose_format.pose_visualizer import PoseVisualizer
+import gloss2pose
 
-import warnings
+POSE_LOOKUP = gloss2pose.PoseLookup("lexicon", "asl")
 warnings.filterwarnings("ignore")
 
 try:
@@ -16,44 +21,40 @@ except Exception as e:
 ############ for pickle ############
 
 try:
-	class PreSettings:
-		lang_src = "en"
-		lang_trg = "en"
-		save_data = "text2gloss_data.pkl"
+    class PreSettings:
+        lang_src = "en"
+        lang_trg = "en"
+        save_data = "text2gloss_data.pkl"
 
-		data_src = None
-		data_trg = None
+        data_src = None
+        data_trg = None
 
-		max_len = 100
-		min_word_count = 3
+        max_len = 100
+        min_word_count = 3
 
-		keep_case = False
-		share_vocab = True
+        keep_case = False
+        share_vocab = True
 
+    preOpt = PreSettings()
+    src_lang_model = spacy.load(preOpt.lang_src)
+    trg_lang_model = spacy.load(preOpt.lang_trg)
 
-	preOpt = PreSettings()
-	src_lang_model = spacy.load(preOpt.lang_src)
-	trg_lang_model = spacy.load(preOpt.lang_trg)
+    STOP_WORDS = ['X-', 'DESC-']
+    MAX_LEN = preOpt.max_len
+    MIN_FREQ = preOpt.min_word_count
 
-	STOP_WORDS = ['X-', 'DESC-']
-	MAX_LEN = preOpt.max_len
-	MIN_FREQ = preOpt.min_word_count
+    def tokenize_src(text):
+        for w in STOP_WORDS:
+            text = text.replace(w, '')
+        return [tok.text for tok in src_lang_model.tokenizer(text)]
 
+    def tokenize_trg(text):
+        for w in STOP_WORDS:
+            text = text.replace(w, '')
+        return [tok.text for tok in trg_lang_model.tokenizer(text)]
 
-	def tokenize_src(text):
-		for w in STOP_WORDS:
-			text = text.replace(w, '')
-		return [tok.text for tok in src_lang_model.tokenizer(text)]
-
-
-	def tokenize_trg(text):
-		for w in STOP_WORDS:
-			text = text.replace(w, '')
-		return [tok.text for tok in trg_lang_model.tokenizer(text)]
-
-
-	def filter_examples_with_length(x):
-		return len(vars(x)['src']) <= MAX_LEN and len(vars(x)['trg']) <= MAX_LEN
+    def filter_examples_with_length(x):
+        return len(vars(x)['src']) <= MAX_LEN and len(vars(x)['trg']) <= MAX_LEN
 except Exception as e:
     print("text2gloss", e)
 
@@ -117,6 +118,43 @@ def translate_gloss():
         return {"error": str(e)}
 
 
+@route("/gloss2pose")
+def make_pose():
+    gloss = request.query.get("gloss", None)
+    if not gloss:
+        response.status = 400
+        return {"error": "No gloss provided"}
+
+    try:
+        start = time()
+        glosses = gloss2pose.prepare_glosses(gloss)
+        print(glosses)
+
+        if not glosses:
+            response.status = 404
+            return {"error": "No gloss found"}
+
+        pose, words = POSE_LOOKUP.gloss_to_pose(glosses)
+        if not pose:
+            response.status = 404
+            return {"error": "No pose found"}
+
+        gloss2pose.scale_down(pose, 512)
+        p = PoseVisualizer(pose, thickness=2)
+
+        unqid = str(uuid.uuid4()) + ".png"
+        p.save_png(unqid, p.draw(transparency=True))
+
+        with open(unqid, "rb") as f:
+            img = f.read()
+        os.remove(unqid)
+
+        return {"img": img, "words": words, "time-taken": time() - start}
+    except Exception as e:
+        response.status = 404
+        return {"error": str(e)}
+
+
 @route("/")
 def index():
     return {"signbridge-server": "OK"}
@@ -128,6 +166,6 @@ if __name__ == "__main__":
         s.connect(('8.8.8.8', 80))
         print(f"http://{s.getsockname()[0]}:7860/")
         s.close()
-    
+
     print_local_ip()
     run(host="0.0.0.0", port=7860)

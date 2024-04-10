@@ -11,3 +11,6 @@ sentencepiece==0.2.0
 # Text 2 Gloss
 spacy==2.3.9
 torchtext==0.6.0
+
+# Gloos 2 Pose
+num2words
