@@ -1,5 +1,7 @@
-text2sign/
+gloss2sign/
 text2gloss/
+gloss2pose/
 __pycache__/
-text2sign.zip
+gloss2sign.zip
 text2gloss.zip
+gloss2pose.zip

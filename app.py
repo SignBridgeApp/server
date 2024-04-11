@@ -9,13 +9,13 @@ import sign2img
 from pose_format.pose_visualizer import PoseVisualizer
 import gloss2pose
 
-POSE_LOOKUP = gloss2pose.PoseLookup("lexicon", "asl")
+POSE_LOOKUP = gloss2pose.PoseLookup("gloss2pose", "asl")
 warnings.filterwarnings("ignore")
 
 try:
-    import text2sign
+    import gloss2sign
 except Exception as e:
-    print("text2sign", e)
+    print("gloss2sign", e)
 
 
 ############ for pickle ############
@@ -66,7 +66,7 @@ except Exception as e:
 ####################
 
 
-@route("/text2sign")
+@route("/gloss2sign")
 def translate_text():
     text = request.query.get("text", None)
     if not text:
@@ -75,7 +75,7 @@ def translate_text():
 
     try:
         start = time()
-        symbol = text2sign.translate(text)
+        symbol = gloss2sign.translate(text)
         return {"sign": symbol, "time-taken": time() - start}
     except Exception as e:
         response.status = 404

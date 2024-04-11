@@ -17,7 +17,7 @@ Takes a spoken text as input and returns fsw string which represents ham notatio
 * Link
 
 ```
-<base_url>/text2sign
+<base_url>/gloss2sign
 ```
 
 * Params
@@ -29,7 +29,7 @@ text
 * Example
 
 ```
-https://bipinkrish-signbridge.hf.space/text2sign?text=today
+https://bipinkrish-signbridge.hf.space/gloss2sign?text=today
 ```
 
 ```
