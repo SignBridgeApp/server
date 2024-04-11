@@ -13,5 +13,5 @@ spacy==2.3.9
 torchtext==0.6.0
 
 # Gloos 2 Pose
-git+https://github.com/bipinkrish/pose-all.git # pose-format
+# git+https://github.com/bipinkrish/pose-all.git # pose-format
 num2words

@@ -19,5 +19,5 @@ else
     echo "Directory $TARGET_DIR already exists. Skipping download and extraction."
 fi
 
-git clone https://github.com/bipinkrish/pose-all
-cd pose-all && pip3 install .
+git clone https://github.com/bipinkrish/pose-all.git
+cd pose-all/src/python && pip3 install .
