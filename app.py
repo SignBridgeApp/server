@@ -1,8 +1,9 @@
 import warnings
-from bottle import route, run, request, response
 from time import time
 import uuid
 import os
+import base64
+from bottle import route, run, request, response
 import spacy
 import socket
 import sign2img
@@ -66,8 +67,8 @@ except Exception as e:
 ####################
 
 
-@route("/gloss2sign")
-def translate_text():
+@route("/text2gloss")
+def translate_gloss():
     text = request.query.get("text", None)
     if not text:
         response.status = 400
@@ -75,7 +76,23 @@ def translate_text():
 
     try:
         start = time()
-        symbol = gloss2sign.translate(text)
+        gloss = text2gloss.translate(text)
+        return {"gloss": gloss, "time-taken": time() - start}
+    except Exception as e:
+        response.status = 404
+        return {"error": str(e)}
+
+
+@route("/gloss2sign")
+def translate_text():
+    gloss = request.query.get("gloss", None)
+    if not gloss:
+        response.status = 400
+        return {"error": "No text provided"}
+
+    try:
+        start = time()
+        symbol = gloss2sign.translate(gloss)
         return {"sign": symbol, "time-taken": time() - start}
     except Exception as e:
         response.status = 404
@@ -94,25 +111,10 @@ def convert_text():
         return {"error": "No sign provided"}
 
     try:
-        img = sign2img.convert(sign, line_color)
-        response.content_type = 'image/png'
-        return img
-    except Exception as e:
-        response.status = 404
-        return {"error": str(e)}
-
-
-@route("/text2gloss")
-def translate_gloss():
-    text = request.query.get("text", None)
-    if not text:
-        response.status = 400
-        return {"error": "No text provided"}
-
-    try:
         start = time()
-        gloss = text2gloss.translate(text)
-        return {"gloss": gloss, "time-taken": time() - start}
+        img = sign2img.convert(sign, line_color)
+        img_base64 = base64.b64encode(img).decode('utf-8')
+        return {"img": img_base64, "time-taken": time() - start}
     except Exception as e:
         response.status = 404
         return {"error": str(e)}
@@ -149,7 +151,8 @@ def make_pose():
             img = f.read()
         os.remove(unqid)
 
-        return {"img": img, "words": words, "time-taken": time() - start}
+        img_base64 = base64.b64encode(img).decode('utf-8')
+        return {"img": img_base64, "words": words, "time-taken": time() - start}
     except Exception as e:
         response.status = 404
         return {"error": str(e)}

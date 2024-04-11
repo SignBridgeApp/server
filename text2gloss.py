@@ -67,8 +67,8 @@ def translate(text: str) -> str:
     pred_seq = TRANSLATOR.translate_sentence(
         torch.LongTensor([src_seq]).to(device))
     pred_line = ' '.join(TRG.vocab.itos[idx] for idx in pred_seq)
-    pred_line = pred_line.replace(
-        Constants.BOS_WORD, '').replace(Constants.EOS_WORD, '')
+    pred_line = pred_line.replace(Constants.BOS_WORD, '').replace(
+        Constants.EOS_WORD, '').replace(Constants.PAD_WORD, '').replace(Constants.UNK_WORD, '')
 
     final = str(pred_line.strip())
     if final.endswith(" ."):

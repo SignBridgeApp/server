@@ -10,9 +10,36 @@ Server/Backend for SignBridge App
 https://bipinkrish-signbridge.hf.space
 ```
 
-### 1. Text to Sign
+### 1. Text to Gloss
 
-Takes a spoken text as input and returns fsw string which represents ham notation.
+Takes a spoken english text as input and returns simplified gloss of it.
+
+* Link
+
+```
+<base_url>/text2gloss
+```
+
+* Params
+  
+```
+text
+```
+
+* Example
+
+```
+https://bipinkrish-signbridge.hf.space/text2gloss?text=membership%20of%20parliament%20see%20minutes
+```
+
+```
+{"gloss": "parliament see minute"}
+```
+
+
+### 2. Gloss to Sign
+
+Takes a gloss text as input and returns fsw string which represents ham notation.
 
 * Link
 
@@ -23,7 +50,7 @@ Takes a spoken text as input and returns fsw string which represents ham notatio
 * Params
   
 ```
-text
+gloss
 ```
 
 * Example
@@ -59,30 +86,35 @@ line_color (Optional)
 https://bipinkrish-signbridge.hf.space/sign2img?sign=M530x518S19a30500x482S19a38465x481S22f04509x506S22f14467x504&line_color=10,23,122,255
 ```
 
+```
+{"img": img_base64}
+```
+
 ![sign2img](https://github.com/SignBridgeApp/server/assets/87369440/542e93ed-3138-47b2-a777-4aa0739b6cf7)
 
-### 3. Text to Gloss
 
-Takes a spoken english text as input and returns simplified gloss of it.
+### 4. Gloss to Pose
+
+Takes a gloss text as input and returns combined pose vile visalized as image and words which are considerd.
 
 * Link
 
 ```
-<base_url>/text2gloss
+<base_url>/gloss2pose
 ```
 
 * Params
   
 ```
-text
+gloss
 ```
 
 * Example
 
 ```
-https://bipinkrish-signbridge.hf.space/text2gloss?text=membership%20of%20parliament%20see%20minutes
+https://bipinkrish-signbridge.hf.space/gloss2pose?gloss=1 2 3
 ```
 
 ```
-{"gloss":"parliament see minute"}
+{"img": img_base64, "words": ["one", "two", "three"]}
 ```

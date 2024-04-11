@@ -3,14 +3,14 @@ from signwriting.visualizer.visualize import signwriting_to_image
 from PIL import Image
 
 
-def to_bytes_io(image: Image) -> BytesIO:
+def to_bytes_io(image: Image) -> bytes:
     imgByte = BytesIO()
     image.save(imgByte, "png")
     imgByte.seek(0)
-    return imgByte
+    return imgByte.getvalue()
 
 
-def convert(fsw: str, line_color=None, fill_color=None) -> BytesIO:
+def convert(fsw: str, line_color=None, fill_color=None) -> bytes:
     if not line_color or len(line_color) != 4:
         line_color = (0, 0, 0, 255)
     
