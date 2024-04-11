@@ -1,8 +1,8 @@
 #!/bin/bash
 
-URL="https://github.com/SignBridgeApp/models/releases/download/v0.0/text2sign.zip"
-ZIP_FILE="text2sign.zip"
-TARGET_DIR="text2sign"
+URL="https://github.com/SignBridgeApp/models/releases/download/v0.0/gloss2sign.zip"
+ZIP_FILE="gloss2sign.zip"
+TARGET_DIR="gloss2sign"
 
 if [ ! -d "$TARGET_DIR" ]; then
     echo "Downloading and extracting $ZIP_FILE..."

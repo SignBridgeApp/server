@@ -4,7 +4,7 @@ import sentencepiece as spm
 
 
 DEVICE = mx.cpu()
-MODEL_FOLDER = "text2sign"
+MODEL_FOLDER = "gloss2sign"
 SPM_PATH = MODEL_FOLDER + "/spm.model"
 
 
