@@ -90,8 +90,7 @@ https://bipinkrish-signbridge.hf.space/sign2img?sign=M530x518S19a30500x482S19a38
 {"img": img_base64}
 ```
 
-![sign2img](https://github.com/SignBridgeApp/server/assets/87369440/542e93ed-3138-47b2-a777-4aa0739b6cf7)
-
+![sign2img](https://github.com/SignBridgeApp/server/assets/87369440/b316d60e-921f-4205-a418-c13c08c66178)
 
 ### 4. Gloss to Pose
 
@@ -118,3 +117,5 @@ https://bipinkrish-signbridge.hf.space/gloss2pose?gloss=1 2 3
 ```
 {"img": img_base64, "words": ["one", "two", "three"]}
 ```
+
+![1 2 3](https://github.com/SignBridgeApp/server/assets/87369440/2066b7ea-b4b8-46d8-8ba7-dae9830b578d)
