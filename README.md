@@ -56,14 +56,14 @@ gloss
 * Example
 
 ```
-https://bipinkrish-signbridge.hf.space/gloss2sign?text=today
+https://bipinkrish-signbridge.hf.space/gloss2sign?gloss=today
 ```
 
 ```
 {"sign": "M530x518S19a30500x482S19a38465x481S22f04509x506S22f14467x504"}
 ```
 
-### 2. Sign to Image
+### 3. Sign to Image
 
 Takes a fsw string as input and returns image of ham notation.
 

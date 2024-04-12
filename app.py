@@ -88,7 +88,7 @@ def translate_text():
     gloss = request.query.get("gloss", None)
     if not gloss:
         response.status = 400
-        return {"error": "No text provided"}
+        return {"error": "No gloss provided"}
 
     try:
         start = time()
@@ -103,12 +103,13 @@ def translate_text():
 def convert_text():
     sign = request.query.get("sign", None)
     line_color = request.query.get("line_color", None)
-    if line_color:
-        line_color = tuple([int(x) for x in line_color.split(",")])
 
     if not sign:
         response.status = 400
         return {"error": "No sign provided"}
+    
+    if line_color:
+        line_color = tuple([int(x) for x in line_color.split(",")])
 
     try:
         start = time()
