@@ -1,7 +1,5 @@
 import warnings
 from time import time
-import uuid
-import os
 import base64
 from bottle import route, run, request, response
 import spacy
@@ -144,13 +142,7 @@ def make_pose():
 
         gloss2pose.scale_down(pose, 512)
         p = PoseVisualizer(pose, thickness=2)
-
-        unqid = str(uuid.uuid4()) + ".png"
-        p.save_png(unqid, p.draw(transparency=True))
-
-        with open(unqid, "rb") as f:
-            img = f.read()
-        os.remove(unqid)
+        img = p.save_png(None, p.draw(transparency=True))
 
         img_base64 = base64.b64encode(img).decode('utf-8')
         return {"img": img_base64, "words": words, "time-taken": time() - start}

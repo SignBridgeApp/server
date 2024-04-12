@@ -21,3 +21,7 @@ fi
 
 git clone https://github.com/SignBridgeApp/pose-all.git
 cd pose-all/src/python && pip3 install .
+rm -rf pose-all/
+
+apt install -y libgl1-mesa-glx
+ldconfig
