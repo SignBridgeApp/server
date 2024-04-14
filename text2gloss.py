@@ -61,16 +61,34 @@ TRANSLATOR = Translator(
 
 def translate(text: str) -> str:
     spoken = text.lower().strip().split()
+
+    if all(c.isdigit() for c in spoken):
+        return text
+
     spoken.append(".")
 
     src_seq = [SRC.vocab.stoi.get(word, unk_idx) for word in spoken]
     pred_seq = TRANSLATOR.translate_sentence(
         torch.LongTensor([src_seq]).to(device))
+    pred_seq = set(pred_seq)
     pred_line = ' '.join(TRG.vocab.itos[idx] for idx in pred_seq)
     pred_line = pred_line.replace(Constants.BOS_WORD, '').replace(
         Constants.EOS_WORD, '').replace(Constants.PAD_WORD, '').replace(Constants.UNK_WORD, '')
 
     final = str(pred_line.strip())
+
+    if not contains_alpha_or_digits(final):
+        return text.lower().strip()
+
     if final.endswith(" ."):
         final = final[:-2]
+
+    if "i" in spoken and "me" not in final.split():
+        final = "me " + final
+
     return final
+
+def contains_alpha_or_digits(s: str) -> bool:
+    contains_alpha = any(c.isalpha() for c in s)
+    contains_digits = any(c.isdigit() for c in s)
+    return any([contains_alpha, contains_digits])
