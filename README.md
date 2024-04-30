@@ -2,6 +2,10 @@
 
 Server/Backend for SignBridge App
 
+* Use Docker for easy deployment.
+* Needs `python3.8`, no other version works becuase it is dependent on `torch=1.1.0` which is used by `text2sign`
+* more customizations or control on API is possible
+
 # Docs
 
 * Base URL
